@@ -57,7 +57,7 @@ export function Header() {
               href="/"
               className="text-nav-foreground/80 hover:text-nav-foreground font-medium"
             >
-              oss-starter-kit
+              DuckDB Query-in-Place
             </BreadcrumbLink>
           </BreadcrumbItem>
           {pathname !== "/" && (
