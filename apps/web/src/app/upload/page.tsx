@@ -1,0 +1,19 @@
+import { UploadForm } from "@/components/upload/upload-form";
+
+export default function UploadPage() {
+  return (
+    <div className="space-y-8">
+      <div className="animate-fade-in border-b border-border pb-5">
+        <h1 className="page-title">Upload a dataset</h1>
+        <p className="text-sm text-muted-foreground mt-1.5">
+          Add CSV, JSON, log, or Parquet files to query in place. They land
+          under <code className="font-mono text-xs">datasets/</code> in your
+          bucket. Up to 100 MB per file.
+        </p>
+      </div>
+      <div className="animate-fade-in-up stagger-2">
+        <UploadForm />
+      </div>
+    </div>
+  );
+}
