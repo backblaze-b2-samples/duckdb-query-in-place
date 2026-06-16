@@ -14,6 +14,20 @@ It's a working demonstration of B2 as a **query-in-place analytics lake with con
 - FastAPI backend with strict layered architecture and structural tests
 - Agent-optimized docs — point your coding agent at the repo and start building
 
+## What it looks like
+
+**Dashboard** — query-in-place stats (datasets, result slices, queries run, bucket size), a 7-day query-activity chart, and a recent-queries table.
+
+![Dashboard with query-in-place stats, activity chart, and recent queries](docs/images/dashboard.png)
+
+**SQL Console** — write SQL against B2 files via DuckDB, run it for a live result preview, and materialize the result back to the bucket.
+
+![SQL Console running a query against a Parquet file in B2 with a results table](docs/images/sql-console.png)
+
+**Results Library** — every materialized Parquet slice under `query-results/`, each with a presigned download.
+
+![Results Library listing materialized Parquet slices with download links](docs/images/results-library.png)
+
 ## How query-in-place works
 
 ```
