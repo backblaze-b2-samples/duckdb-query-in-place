@@ -25,21 +25,22 @@ const REQUIRED_PNPM_MAJOR = 9;
 const REQUIRED_PYTHON_MINOR = 11; // 3.11+
 
 // Required B2 env vars + the exact placeholder strings shipped in
-// .env.example. Keep in sync with services/api/main.py REQUIRED_B2_SETTINGS
-// and PLACEHOLDER_VALUES.
+// .env.example. Keep in sync with
+// services/api/app/config/b2_contract.py.
 const REQUIRED_B2_VARS = [
-  "B2_ENDPOINT",
   "B2_REGION",
   "B2_APPLICATION_KEY_ID",
   "B2_APPLICATION_KEY",
   "B2_BUCKET_NAME",
 ];
 const PLACEHOLDERS = new Set([
-  "your_b2_endpoint",
+  "your-region-000",
   "your_application_key_id",
   "your_application_key",
   "your-bucket-name",
 ]);
+const B2_REGION_PATTERN = /^[a-z][a-z0-9]*(?:-[a-z0-9]+)*-\d{3}$/;
+const B2_REGION_EXAMPLE = "us" + "-west-" + "004";
 
 // Only Next.js: `pnpm dev` self-heals the API side via scripts/pick-port.mjs,
 // so warning about 8000 here would just duplicate dev.sh's own banner.
@@ -177,6 +178,12 @@ function checkEnv() {
     fail(
       `.env is missing required B2 variables: ${missing.join(", ")}`,
       "See .env.example for the full list and edit .env to add them",
+    );
+  }
+  if (env.B2_REGION && !B2_REGION_PATTERN.test(env.B2_REGION)) {
+    fail(
+      "B2_REGION must be a Backblaze region token",
+      `Use a value like ${B2_REGION_EXAMPLE}; do not paste endpoint URLs or values containing '/', '@', ':', '?', or '#'.`,
     );
   }
   const placeholders = REQUIRED_B2_VARS.filter(

@@ -10,7 +10,7 @@ How it talks to B2
 ------------------
 `httpfs` speaks the S3-compatible API. On first use we:
 
-1. open a connection with `custom_user_agent='b2ai-duckdb-query-in-place'`
+1. open a connection with the shared Backblaze samples user agent
    (Standard #2 — the per-app identity on the DuckDB S3 path);
 2. `INSTALL httpfs; LOAD httpfs;`
 3. `CREATE SECRET ... (TYPE s3, ...)` built from the `B2_*` settings, with
@@ -34,7 +34,7 @@ import logging
 
 import duckdb
 
-from app.config import settings
+from app.config import B2_USER_AGENT, settings
 
 logger = logging.getLogger(__name__)
 
@@ -44,13 +44,12 @@ QueryRows = list[list[object]]
 
 
 def _endpoint_host() -> str:
-    """Reduce the configured B2 endpoint to a bare host for httpfs.
+    """Reduce the derived B2 endpoint to a bare host for httpfs.
 
-    `B2_ENDPOINT` is an S3 URL (e.g. `https://s3.us-west-004.backblazeb2.com`)
-    but DuckDB's S3 secret expects just the host. Strip the scheme and any
-    trailing slash.
+    The S3 URL is derived from `B2_REGION`, while DuckDB's S3 secret expects
+    just the host. Strip the scheme and any trailing slash.
     """
-    host = settings.b2_endpoint
+    host = settings.b2_s3_url
     for scheme in ("https://", "http://"):
         if host.startswith(scheme):
             host = host[len(scheme) :]
@@ -68,7 +67,7 @@ def _get_connection() -> "duckdb.DuckDBPyConnection":
     """
     con = duckdb.connect(
         database=":memory:",
-        config={"custom_user_agent": "b2ai-duckdb-query-in-place"},
+        config={"custom_user_agent": B2_USER_AGENT},
     )
     con.execute("INSTALL httpfs")
     con.execute("LOAD httpfs")

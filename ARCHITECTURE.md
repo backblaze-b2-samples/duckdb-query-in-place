@@ -69,9 +69,9 @@ services/api/
 containment rule applied to boto3. On first use it builds a single cached,
 hardened in-memory connection:
 
-1. open with `custom_user_agent='b2ai-duckdb-query-in-place'` (Standard #2 on the DuckDB S3 path);
+1. open with `custom_user_agent='b2ai-duckdb-query-in-place (backblaze-b2-samples)'` (Standard #2 on the DuckDB S3 path);
 2. `INSTALL httpfs; LOAD httpfs;`
-3. `CREATE SECRET ... (TYPE s3, KEY_ID, SECRET, ENDPOINT <host-only>, REGION, URL_STYLE 'path', USE_SSL true)` built from the `B2_*` settings (the endpoint is reduced to a bare host);
+3. `CREATE SECRET ... (TYPE s3, KEY_ID, SECRET, ENDPOINT <host-only>, REGION, URL_STYLE 'path', USE_SSL true)` built from the `B2_*` settings (the S3 endpoint is derived from `B2_REGION` and reduced to a bare host);
 4. **harden**: `SET disabled_filesystems='LocalFileSystem'` then `SET lock_configuration=true` — user SQL can read/write S3 but cannot touch the host disk or change settings/rewrite the secret.
 
 It exposes two functions and nothing DuckDB-specific crosses the boundary:
@@ -107,7 +107,7 @@ user input never controls the write path.
 
 ## External Services
 
-- **Backblaze B2 S3 API** — object management (boto3) and query-in-place I/O (DuckDB httpfs: ranged GETs for reads, PUT/multipart for COPY writes). No b2-native API anywhere. No second external API — B2 credentials are the only secret.
+- **Backblaze B2 S3 API** — object management (boto3) and query-in-place I/O (DuckDB httpfs: ranged GETs for reads, PUT/multipart for COPY writes). No native B2 API anywhere. No second external API — B2 credentials are the only secret.
 
 ## Trust Boundaries
 

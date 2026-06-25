@@ -1,6 +1,6 @@
 # Scaffold plan — `duckdb-query-in-place`
 
-Source of truth: `.claude/scratch/vcsk-321b55ad-3745-454f-9954-2770162e7e3b/`
+Source of truth: `.claude/scratch/starter-kit-template/`
 (fresh `vibe-coding-starter-kit` clone). Target: `./duckdb-query-in-place`.
 
 ## 1. Purpose
@@ -44,7 +44,7 @@ doesn't need, add the DuckDB query surface.
 - `services/api/app/repo/duckdb_client.py` — DuckDB engine, **external-engine
   containment lives in `repo/`** (mirrors boto3 rule). Singleton connection
   (`functools.lru_cache`) that on first use:
-  `SET custom_user_agent='b2ai-duckdb-query-in-place'` (**Standard #2 on the
+  `SET custom_user_agent='b2ai-duckdb-query-in-place (backblaze-b2-samples)'` (**Standard #2 on the
   DuckDB S3 path**), `INSTALL httpfs; LOAD httpfs;`, then
   `CREATE SECRET b2 (TYPE s3, KEY_ID ..., SECRET ..., ENDPOINT '<host-only>',
   REGION ..., URL_STYLE 'path', USE_SSL true)` built from `settings.*`. Endpoint is
@@ -111,9 +111,11 @@ doesn't need, add the DuckDB query surface.
   meta) / `delete_object` / `generate_presigned_url` (download/preview/result).
 - **DuckDB `httpfs`**: ranged `GET` of Parquet row groups for queries;
   `PUT`/multipart for `COPY ... TO` materialize. All via the S3 API.
-- **No b2-native API anywhere.** Custom user agent on **both** S3 clients:
-  boto3 `user_agent_extra='b2ai-duckdb-query-in-place'` **and** DuckDB
-  `custom_user_agent='b2ai-duckdb-query-in-place'` (**Standard #2 OK**).
+- **No native B2 API anywhere.** Custom user agent on **both** S3 clients:
+  boto3 `user_agent_extra='b2ai-duckdb-query-in-place (backblaze-b2-samples)'`
+  **and** DuckDB
+  `custom_user_agent='b2ai-duckdb-query-in-place (backblaze-b2-samples)'`
+  (**Standard #2 OK**).
 
 ## 4. Key features (seed README + `docs/features/*` stubs)
 1. **SQL console** — write SQL in the browser, run it against files in B2.
@@ -158,8 +160,8 @@ B2 credentials only. **Estimated cost per full demo run: $0.** No extra env var.
 | Title `Vibe Coding Starter Kit` | `DuckDB Query-in-Place on Backblaze B2` |
 | sidebar label `OSS Starter Kit` | `DuckDB Query-in-Place` |
 | FastAPI title `OSS Starter Kit API` | `DuckDB Query-in-Place API` |
-| user_agent_extra `b2ai-oss-start` | `b2ai-duckdb-query-in-place` |
-| DuckDB custom_user_agent | `b2ai-duckdb-query-in-place` |
+| user_agent_extra `b2ai-oss-start` | `b2ai-duckdb-query-in-place (backblaze-b2-samples)` |
+| DuckDB custom_user_agent | `b2ai-duckdb-query-in-place (backblaze-b2-samples)` |
 | UTM `utm_content=b2ai-oss-start` (all links) | `utm_content=b2ai-duckdb-query-in-place` |
 | pyproject project name (if any) | `duckdb-query-in-place` |
 | infra/railway/README references | `duckdb-query-in-place` |
@@ -168,15 +170,16 @@ B2 credentials only. **Estimated cost per full demo run: $0.** No extra env var.
 ### Env-var rename -> **Standard #3** (validated against `iceberg-feature-store`)
 | Starter | Standard #3 |
 |---|---|
-| `B2_KEY_ID` (`b2_key_id`) | `B2_APPLICATION_KEY_ID` (`b2_application_key_id`) |
-| — (missing) | `B2_REGION` (`b2_region`, default `us-west-004`) |
+| Legacy key ID names | `B2_APPLICATION_KEY_ID` (`b2_application_key_id`) |
+| — (missing) | `B2_REGION` (`b2_region`) |
 | `B2_APPLICATION_KEY` | unchanged |
 | `B2_BUCKET_NAME` | unchanged |
-| `B2_ENDPOINT` | unchanged |
-| `B2_PUBLIC_URL` (optional) | unchanged (keep) |
+| Legacy endpoint setting | derived from `B2_REGION` |
+| Legacy public URL setting | `B2_PUBLIC_URL_BASE` (optional) |
 
-Touch all of: `.env.example`, `config/settings.py`, `main.py`
-(`REQUIRED_B2_SETTINGS` + `PLACEHOLDER_VALUES`), `scripts/doctor.mjs`
+Touch all of: `.env.example`, `config/settings.py`,
+`config/b2_contract.py` (`REQUIRED_B2_SETTINGS` + `PLACEHOLDER_VALUES`),
+`main.py`, `scripts/doctor.mjs`
 (`REQUIRED_B2_VARS` + `PLACEHOLDERS`), `repo/b2_client.py`
 (`aws_access_key_id=settings.b2_application_key_id`, add
 `region_name=settings.b2_region`), `repo/duckdb_client.py` (secret KEY_ID/REGION),
