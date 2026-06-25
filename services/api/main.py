@@ -26,12 +26,11 @@ from app.runtime import files, health, metrics, query, upload  # noqa: E402
 
 
 # --- Startup validation ---
-# Required B2 settings are declared with empty-string defaults so that
-# `Settings()` instantiation (and therefore `from main import app`) never
-# raises during test collection. We instead fail fast at server startup
-# with a human-readable message — uvicorn surfaces this as the first log
-# line, so misconfiguration is obvious within seconds rather than turning
-# into mysterious 500s on the first request.
+# Required B2 settings use empty-string defaults so missing values do not
+# make `Settings()` instantiation fail during test collection. We instead
+# fail fast at server startup with a human-readable message; uvicorn surfaces
+# this as the first log line, so misconfiguration is obvious within seconds
+# rather than turning into mysterious 500s on the first request.
 @asynccontextmanager
 async def lifespan(_app: "FastAPI"):
     missing = [
