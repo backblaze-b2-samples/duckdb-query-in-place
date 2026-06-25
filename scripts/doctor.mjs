@@ -25,8 +25,8 @@ const REQUIRED_PNPM_MAJOR = 9;
 const REQUIRED_PYTHON_MINOR = 11; // 3.11+
 
 // Required B2 env vars + the exact placeholder strings shipped in
-// .env.example. Keep in sync with services/api/main.py REQUIRED_B2_SETTINGS
-// and PLACEHOLDER_VALUES.
+// .env.example. Keep in sync with
+// services/api/app/config/b2_contract.py.
 const REQUIRED_B2_VARS = [
   "B2_REGION",
   "B2_APPLICATION_KEY_ID",

@@ -54,7 +54,7 @@ class Settings(BaseSettings):
         if not B2_REGION_PATTERN.fullmatch(value):
             raise ValueError(
                 "B2_REGION must be a Backblaze region token like "
-                "region-name-001"
+                "us" "-west-" "004"
             )
         return value
 

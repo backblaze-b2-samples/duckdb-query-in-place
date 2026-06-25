@@ -177,8 +177,9 @@ B2 credentials only. **Estimated cost per full demo run: $0.** No extra env var.
 | Legacy endpoint setting | derived from `B2_REGION` |
 | Legacy public URL setting | `B2_PUBLIC_URL_BASE` (optional) |
 
-Touch all of: `.env.example`, `config/settings.py`, `main.py`
-(`REQUIRED_B2_SETTINGS` + `PLACEHOLDER_VALUES`), `scripts/doctor.mjs`
+Touch all of: `.env.example`, `config/settings.py`,
+`config/b2_contract.py` (`REQUIRED_B2_SETTINGS` + `PLACEHOLDER_VALUES`),
+`main.py`, `scripts/doctor.mjs`
 (`REQUIRED_B2_VARS` + `PLACEHOLDERS`), `repo/b2_client.py`
 (`aws_access_key_id=settings.b2_application_key_id`, add
 `region_name=settings.b2_region`), `repo/duckdb_client.py` (secret KEY_ID/REGION),
