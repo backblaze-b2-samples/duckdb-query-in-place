@@ -1,13 +1,14 @@
 from pydantic_settings import BaseSettings
 
+B2_USER_AGENT = "b2ai-duckdb-query-in-place (backblaze-b2-samples)"
+
 
 class Settings(BaseSettings):
-    b2_endpoint: str = ""
-    b2_region: str = "us-west-004"
+    b2_region: str = ""
     b2_application_key_id: str = ""
     b2_application_key: str = ""
     b2_bucket_name: str = ""
-    b2_public_url: str = ""
+    b2_public_url_base: str = ""
 
     api_port: int = 8000
     # Explicit allowlist by default — covers Next on :3000 and the
@@ -40,6 +41,12 @@ class Settings(BaseSettings):
     @property
     def cors_origins(self) -> list[str]:
         return [o.strip() for o in self.api_cors_origins.split(",")]
+
+    @property
+    def b2_s3_url(self) -> str:
+        if not self.b2_region:
+            return ""
+        return f"https://s3.{self.b2_region}.backblazeb2.com"
 
 
 settings = Settings()

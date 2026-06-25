@@ -69,7 +69,7 @@ input cannot pick an arbitrary object key, cross prefixes, or path-traverse.
 - B2 credentials are the **only** secret; there is no second API key
 - All secrets loaded via environment variables (pydantic-settings)
 - Never committed to source control; `.env.example` documents the required
-  `B2_*` variables without values
+  `B2_*` variables without secret values
 
 ## Agent Security Rules
 

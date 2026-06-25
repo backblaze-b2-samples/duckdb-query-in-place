@@ -99,8 +99,8 @@ Open `.env`, then head to the [Backblaze B2 dashboard](https://secure.backblaze.
 
 1. **Create a bucket.** Paste each value into `.env`:
    - **Bucket Unique Name** → `B2_BUCKET_NAME`
-   - **Endpoint** → `B2_ENDPOINT` (e.g. `https://s3.us-west-004.backblazeb2.com`)
-   - The region embedded in the endpoint (e.g. `us-west-004`) → `B2_REGION`
+   - **Region** (e.g. `us-west-004`) → `B2_REGION`
+   - Optional public object base URL → `B2_PUBLIC_URL_BASE`
 2. **Create an application key** with `Read and Write` permission. Paste each value into `.env`:
    - **keyID** → `B2_APPLICATION_KEY_ID`
    - **applicationKey** → `B2_APPLICATION_KEY` *(only shown once — paste it now)*
