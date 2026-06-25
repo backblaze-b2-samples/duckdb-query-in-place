@@ -18,7 +18,12 @@ from fastapi.middleware.cors import CORSMiddleware  # noqa: E402
 from starlette.middleware.base import BaseHTTPMiddleware  # noqa: E402
 
 from app.config import settings  # noqa: E402
+from app.config.b2_contract import (  # noqa: E402
+    PLACEHOLDER_VALUES,
+    REQUIRED_B2_SETTINGS,
+)
 from app.runtime import files, health, metrics, query, upload  # noqa: E402
+
 
 # --- Startup validation ---
 # Required B2 settings are declared with empty-string defaults so that
@@ -27,24 +32,6 @@ from app.runtime import files, health, metrics, query, upload  # noqa: E402
 # with a human-readable message — uvicorn surfaces this as the first log
 # line, so misconfiguration is obvious within seconds rather than turning
 # into mysterious 500s on the first request.
-REQUIRED_B2_SETTINGS = (
-    ("b2_application_key_id", "B2_APPLICATION_KEY_ID"),
-    ("b2_application_key", "B2_APPLICATION_KEY"),
-    ("b2_bucket_name", "B2_BUCKET_NAME"),
-    ("b2_region", "B2_REGION"),
-)
-
-# Exact placeholder strings shipped in .env.example. If a user copied
-# the example and didn't edit it, Settings will pass the "non-empty"
-# check above but every B2 call will still 403. Catch that here.
-PLACEHOLDER_VALUES = frozenset({
-    "your-region-000",
-    "your_application_key_id",
-    "your_application_key",
-    "your-bucket-name",
-})
-
-
 @asynccontextmanager
 async def lifespan(_app: "FastAPI"):
     missing = [

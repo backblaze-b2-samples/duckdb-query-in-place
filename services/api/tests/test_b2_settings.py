@@ -5,8 +5,8 @@ import pytest
 from pydantic import ValidationError
 
 from app.config import B2_USER_AGENT
+from app.config.b2_contract import REQUIRED_B2_SETTINGS
 from app.config.settings import Settings
-from main import REQUIRED_B2_SETTINGS
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 REQUIRED_B2_ENV_NAMES = {
