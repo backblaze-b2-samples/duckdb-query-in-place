@@ -16,3 +16,8 @@
 - `python -m pytest`
 - `python -m pytest tests/test_structure.py -v`
 - B2 standards scans for native API calls, deprecated env aliases, and secret-looking tokens.
+
+## Review Fixes
+- Ignore leftover deprecated dotenv keys during upgrade.
+- Validate `B2_REGION` before deriving S3 endpoints.
+- Add env-contract drift tests for startup validation, `.env.example`, and `scripts/doctor.mjs`.

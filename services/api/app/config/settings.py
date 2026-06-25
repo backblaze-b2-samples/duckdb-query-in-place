@@ -1,6 +1,10 @@
+import re
+
+from pydantic import field_validator
 from pydantic_settings import BaseSettings
 
 B2_USER_AGENT = "b2ai-duckdb-query-in-place (backblaze-b2-samples)"
+B2_REGION_PATTERN = re.compile(r"^[a-z][a-z0-9]*(?:-[a-z0-9]+)*-\d{3}$")
 
 
 class Settings(BaseSettings):
@@ -36,7 +40,23 @@ class Settings(BaseSettings):
     # before being truncated. Materialize writes the full result to B2.
     max_query_rows: int = 1000
 
-    model_config = {"env_file": ".env", "env_file_encoding": "utf-8"}
+    model_config = {
+        "env_file": ".env",
+        "env_file_encoding": "utf-8",
+        "extra": "ignore",
+    }
+
+    @field_validator("b2_region")
+    @classmethod
+    def validate_b2_region(cls, value: str) -> str:
+        if value == "":
+            return value
+        if not B2_REGION_PATTERN.fullmatch(value):
+            raise ValueError(
+                "B2_REGION must be a Backblaze region token like "
+                "region-name-001"
+            )
+        return value
 
     @property
     def cors_origins(self) -> list[str]:

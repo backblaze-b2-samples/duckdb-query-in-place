@@ -31,6 +31,11 @@ Set these on the API service:
 | `B2_PUBLIC_URL_BASE` | Optional public object base URL |
 | `API_CORS_ORIGINS` | Your web service URL (e.g., `https://web-production-xxx.up.railway.app`) |
 
+For upgrades from older revisions, add `B2_REGION` and optional
+`B2_PUBLIC_URL_BASE` before removing deprecated `B2_ENDPOINT` or
+`B2_PUBLIC_URL`. This release ignores the deprecated keys, so they can be
+removed after the new API service is deployed everywhere.
+
 Set this on the Web service:
 
 | Variable | Value |
