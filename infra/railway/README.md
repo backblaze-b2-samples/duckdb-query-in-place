@@ -33,8 +33,10 @@ Set these on the API service:
 
 For upgrades from older revisions, add `B2_REGION` and optional
 `B2_PUBLIC_URL_BASE` before removing deprecated `B2_ENDPOINT` or
-`B2_PUBLIC_URL`. This release ignores the deprecated keys, so they can be
-removed after the new API service is deployed everywhere.
+`B2_PUBLIC_URL`. Keep the deprecated variables through the rollback window so
+old API instances can still restart safely. This release ignores the deprecated
+keys, so remove them only after the new API service is deployed everywhere and
+rollback to the previous release is no longer needed.
 
 Set this on the Web service:
 

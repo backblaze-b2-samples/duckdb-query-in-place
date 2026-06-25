@@ -107,9 +107,10 @@ Open `.env`, then head to the [Backblaze B2 dashboard](https://secure.backblaze.
 
 Existing deployments from older revisions may still have `B2_ENDPOINT` and
 `B2_PUBLIC_URL` set. Add `B2_REGION` and, if needed, `B2_PUBLIC_URL_BASE`
-first, deploy this version, then remove the old variables after every process
-is running the new code. The current app ignores those deprecated keys during
-the transition.
+first, deploy this version, and keep the old variables until the rollback
+window is closed. Remove them only after every process is running the new code
+and you no longer need to restart or roll back to the previous release. The
+current app ignores those deprecated keys during the transition.
 
 > Walkthroughs: [creating a bucket](https://www.backblaze.com/docs/cloud-storage-create-and-manage-buckets?utm_source=github&utm_medium=referral&utm_campaign=ai_artifacts&utm_content=b2ai-duckdb-query-in-place) and [creating app keys](https://www.backblaze.com/docs/cloud-storage-create-and-manage-app-keys?utm_source=github&utm_medium=referral&utm_campaign=ai_artifacts&utm_content=b2ai-duckdb-query-in-place).
 

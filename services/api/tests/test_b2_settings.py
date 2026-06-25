@@ -87,6 +87,12 @@ def test_b2_env_contract_does_not_drift():
     )
 
 
+def test_doctor_validates_b2_region():
+    doctor = (REPO_ROOT / "scripts/doctor.mjs").read_text()
+    assert "B2_REGION_PATTERN" in doctor
+    assert "B2_REGION must be a Backblaze region token" in doctor
+
+
 def test_public_url_base_uses_standardized_env(monkeypatch):
     monkeypatch.setenv("B2_PUBLIC_URL_BASE", "https://cdn.example.com")
     assert Settings().b2_public_url_base == "https://cdn.example.com"
